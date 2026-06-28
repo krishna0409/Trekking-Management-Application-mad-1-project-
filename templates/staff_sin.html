@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Welcome to TrekWell </h1>
+        <h4>Sign In and become part of our Journey </h4>
+        <form action="/staff/signin" method="POST">
+            <div class="input-group">
+                <label><h5>Name</h5></label>
+                <input type="text" name="name" required placeholder="Enter your Name">
+            </div>
+            <div class="input-group">
+                <label><h5>Mobile no.</h5></label>
+                <input type="tel" name="mob" required placeholder="Enter your Mobile no.">
+            </div>
+            <div class="input-group">
+                <label><h5>Email Address</h5></label>
+                <input type="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label><h5>Password</h5></label>
+                <input type="password" name="pass" required placeholder="Enter your password">
+            </div>
+            <div >
+                <label id="extra"><h5>Gender</h5></label>
+                <input type="radio" name="choice" value="M">
+                <label>Male</label>
+                <input type="radio" name="choice" value="F">
+                <label>Female</label>
+                <input type="radio" name="choice" value="O">
+                <label>Others</label>
+            </div>
+            <br><br>
+            <button type="submit" class="Submit-btn">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>

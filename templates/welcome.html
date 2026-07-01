@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
 </head>
 <body>
-    <p>Welcome {{ id }}</p>
+    <div class="main-container">
+        <label id="extra"><h1>Welcome {{ mail }}</h1></label>
+        <h4 style="margin-top: 20px;">Your TrekWell User ID is : {{ id }}</h4>
+        <div class="form-footer">
+            <a href="{{url}}">Click to Login</a>
+        </div>
+    </div>
 </body>
 </html>

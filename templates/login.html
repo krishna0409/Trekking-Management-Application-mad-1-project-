@@ -10,7 +10,7 @@
     <div class="main-container">
         <h1>Welcome Back !! </h1>
         <h4>Log In and Restart the Journey </h4>
-        <form action="/login" method="POST">
+        <form action="{{act}}" method="POST">
             <div class="input-group">
                 <label for="username"><h5>User_ID or Email</h5></label>
                 <input type="text" id="username" name="user_id" placeholder="Enter your User_ID or Email" required>
@@ -22,8 +22,8 @@
             <button type="submit" class="Submit-btn">Log In</button>
         </form>
         <div class="form-footer">
-            <p><a href="/forget">Forgot Password?</a></p>
-            <p>Don't have an account? <a href="/">Register here</a></p>
+            <p><a href="{{forg}}">Forgot Password?</a></p>
+            <p>Don't have an account? <a href="{{sign}}">Register here</a></p>
         </div>
     </div>
 </body>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Trek</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Update Trek Information</h1>
+        <br>
+        <form action="/trek/update/{{id}}" method="POST" id="add-trek">
+            <br>
+            <div>
+                <label>Trek Description: </label>
+                <input type="text" name="desc" />
+            </div>
+            <br>
+            <div>
+                <label>Difficulty : </label>
+                <input type="text" name="diff" />
+            </div>
+            <br>
+            <div>
+                <label>Duration :</label>
+                <input type="text" name="dur" />
+            </div>
+            <br>
+            <div>
+                <label>Status :</label>
+                <input type="text" name="status" />
+            </div>
+            <br>
+            <div>
+                <label>Slots:</label>
+                <input type="number" name="slots" />
+            </div>
+            <br>
+            <button type="submit" class="Submit-btn">Update Trek</button>
+        </form>
+    </div>
+</body>
+</html>

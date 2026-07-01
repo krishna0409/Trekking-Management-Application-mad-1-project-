@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>Dashboard</title>
 </head>
 <body>
-    
+    <div class="main-container1">
+        <h1>Welcome {{name}}</h1>
+        <h4>What's in your mind Today !!</h4>
+        <div class="main-container2">
+            <h4>Your Registered Treks</h4>
+        <table id = "all-treks">
+            <tr>
+                <th>SNo</th>
+                <th>Trek Name</th>
+                <th>Trek Difficulity</th>
+                <th>Trek Date</th>
+            </tr>
+                {% for i in list_used %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td> {{ i.name }}</td>
+                <td>{{ i.difficulty }}</td>
+                <td>{{ i.date}}</td>
+                <td>
+                    <a href='/trek/{{ i["trek_id"] }}/details'type="button">Details</a>
+                    <a href='/trek/{{ i["trek_id"] }}/cancel'type="button">To Cancel Trek</a>
+                </td>
+            </tr>
+                {% endfor %}
+        </table>
+        <br>
+        <div class="form-footer">
+            <button id="btn" onclick="window.location.href='/trek/add'">Register New Trek</button>
+            <a href="/logout">Click to logout</a>
+            <a href="/delete/{{ id }}">Click to Delete Account</a>
+            <a href="/update/{{ id }}">Click to Update Account</a>
+        </div>
+            </div>
+    </div>
 </body>
 </html>

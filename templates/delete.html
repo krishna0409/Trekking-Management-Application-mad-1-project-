@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{whc}} Deletion</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+</head>
+<body>
+    <div class="main-container">
+        <label id="extra"><h4>{{ m1 }}{{ id }}</h4></label>
+        <form action="{{url}}{{ id }}" method="POST">
+            <button type="submit" class="Submit-btn">{{ m2 }}</button>
+        </form>
+    </div>
+</body>
+</html>

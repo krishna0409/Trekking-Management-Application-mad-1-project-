@@ -26,19 +26,20 @@ body {
     background-color: #ffffff;
     padding: 30px 60px;
     border-radius: 24px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow:40px 40px 15px rgba(0,0,0,0.3);
     width: 100%;
-    max-width: 700px;
+    max-width: 650px;
     border:groove;
 }
 .main-container2 {
     background-color: #ffffff;
-    padding: 30px 60px 60px 30px;
+    padding: 30px 60px;
     border-radius: 24px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px;
-    border:ridge;
+    max-width: 500px;
+    border:groove;
+    
 }
 h1{
     text-align: center;
@@ -104,10 +105,16 @@ h4{
 .form-footer a:hover {
     text-decoration: underline;
 }
-#btn{
+#btn1{
     border-radius: 100px;
     height: 40px;
     width: 200px;
     background-color: rgb(199, 222, 241);
     cursor: pointer;;
+}
+.img{
+    border :#333333;
+    border-radius: 25px;
+    height: 300px;
+    width: 350px;
 }

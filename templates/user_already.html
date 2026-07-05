@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
-    <title>User Already Exist</title>
+    <title>{{title}}</title>
 </head>
 <body>
     <div class="main-container">
+    {% if 'User' in title %}
         <h1>User Already Exist</h1>
         <div class="form-footer">
-            <a href="{{url}}">Please Login with Your Credentials</a>
+            <a href="{{ url }}">Please Login with Your Credentials</a>
         </div>
+    {% else %}
+        <h1>Sorry for the Inconvenience</h1><hr>
+        {% if slots>0 %}
+            <h4>Remaining slots : {{slots}}</h4><hr>
+            <a href="/trek/register/{{user}}" class="btn btn-info">Book Again</a>
+        {% else %}
+            <h4>On Your Chosen Date all Slots are Full</h4><hr>
+            <h4>Please Try for some other Date</h4><hr>
+            <a href="/dashboard/{{user}}" class="btn btn-secondary">Click To Back</a>
+        {% endif %}
+    {% endif %}
     </div>
 </body>
 </html>

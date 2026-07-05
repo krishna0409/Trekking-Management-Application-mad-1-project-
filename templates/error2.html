@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
-    <title>Wrong Credentials</title>
 </head>
 <body>
     <div class="main-container">
-        <h1>Wrong Credentials</h1>
-        <h4>Please Retry !!!</h4>
-        <div class="form-footer">
-            <a href="{{url1}}">GO BACK</a><br><br>
-            <a href="/forget">To forget Password</a>
-        </div>
+        {% if 'Wrong' in title %}
+            <h1>Wrong Credentials</h1>
+            <h4>Please Retry !!!</h4>
+            <div class="form-footer">
+                <a href="{{url}}">GO BACK</a><br><br>
+                <a href="/forget">To forget Password</a>
+            </div>
+        {% elif 'Welcome' in title %}
+            <label id="extra"><h1>Welcome {{ mail }}</h1></label>
+            <h4 style="margin-top: 20px;">Your TrekWell User ID is : {{ id }}</h4>
+            <div class="form-footer">
+                <a href="{{ url }}">Click to Login</a>
+            </div>
+        {% else %}
+            <h1>User Not Found</h1>
+            <div class="form-footer">
+                <a href="{{url}}">Please Make an account First !! </a>
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>

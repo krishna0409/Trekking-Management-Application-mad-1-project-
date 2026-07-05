@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+</head>
+<body>
+    <div class="main-container1">
+        {% if 'U' in id %}
+            <h1>Welcome {{name}}</h1>
+            <h4>What's in your mind Today !!</h4>
+            <a href="/logout" class="btn btn-warning">Click to logout</a>
+            <a href="/delete/{{ id }}/{{name}}" class="btn btn-danger">Click to Delete Account</a>
+            <a href="/update/{{ id }}" class="btn btn-secondary">Click to Update Account</a>
+            <br><br>
+            <div class="main-container2">
+                <h4>Your Registered Treks</h4>
+                {% if list_used|length == 0 %}
+                    <p style="text-align: center;">No Trek Registered Yet </p>
+                {% else %}
+                    {% for i in list_used %}
+                        <div class="card" style="width: 18rem;">
+                            <img src="{{img}}" class="img-thumbnail" alt="...">
+                            <div class="card-body">
+                                <h4>{{i.name}}</h4><hr>
+                                <p class="card-text">{{i.description}}</p><hr>
+                                <a href="/trek/details/{{id}}/{{i.trek_id}}/{{book[loop.index-1][0]}}" class="btn btn-info">Booking Details</a><hr>
+                                {% if  book[loop.index-1][3] == 1 %}
+                                    <a href="/trek/cancel/{{id}}/{{i.trek_id}}/{{book[loop.index-1][0]}}" class="btn btn-danger">To Cancel Booking</a>
+                                {% else %}
+                                    <label><h5>Status : Trek Completed</h5></label>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-footer">
+                <button class="btn btn-primary" onclick="window.location.href='/trek/register/{{id}}/{{name}}'">Register For New Trek</button>
+            </div>
+        {% else %}
+        <h1>Welcome {{name}}</h1>
+        {% endif %}
+    </div>
+</body>
+</html>

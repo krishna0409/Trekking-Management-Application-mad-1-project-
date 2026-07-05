@@ -18,3 +18,5 @@ class LocalDevelopmentConfig(Config):
     SECURITY_SEND_REGISTER_EMAIL=False
     SECURITY_UNAUTHORIZED_VIEW=None
     SECURITY_LOGIN_URL = "/security-login"
+    SECURITY_POST_LOGIN_VIEW = "/login"
+    SECURITY_LOGIN_USER_TEMPLATE = None

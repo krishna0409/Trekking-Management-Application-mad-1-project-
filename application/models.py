@@ -3,6 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
 db = SQLAlchemy()
 
+role_admins = db.Table('role_admins',
+    db.Column('admin_id', db.String(), db.ForeignKey('admin.admin_id')),
+    db.Column('role_id', db.String(), db.ForeignKey('role.id')))
+
+role_staff = db.Table('role_staff',
+    db.Column('staff_id', db.String(), db.ForeignKey('staff.staff_id')),
+    db.Column('role_id', db.String(), db.ForeignKey('role.id')))
+
 role_users = db.Table('role_users',
     db.Column('user_id', db.String(), db.ForeignKey('user.user_id')),
     db.Column('role_id', db.String(), db.ForeignKey('role.id')))
@@ -13,6 +21,38 @@ class Role(db.Model, RoleMixin):
     name = db.Column(db.String(), unique=True)
     description = db.Column(db.String())
 
+class Admin(db.Model, UserMixin):
+    __tablename__ = 'admin'
+    admin_id = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    mobile_no = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String, unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    gender = db.Column(db.String, nullable=False)
+    active = db.Column(db.Integer, nullable=False)
+    fs_uniquifier = db.Column(db.String(64), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))
+    roles = db.relationship('Role', secondary=role_admins, backref=db.backref('admins', lazy='dynamic'))
+
+    def get_id(self):
+        return f"admin-{self.admin_id}"
+
+class Staff(db.Model, UserMixin):
+    __tablename__ = 'staff'
+    staff_id = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    mobile_no = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
+    gender = db.Column(db.String, nullable=False)
+    active = db.Column(db.Integer,nullable=False)
+    fs_uniquifier = db.Column(db.String(64), unique=True, nullable=False,
+                               default=lambda: str(uuid.uuid4()))
+    roles = db.relationship('Role', secondary=role_staff,
+                             backref=db.backref('staffs', lazy='dynamic'))
+    def get_id(self):
+        return f"staff-{self.staff_id}"
+
+    
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     user_id = db.Column(db.String, primary_key=True)
@@ -26,18 +66,8 @@ class User(db.Model, UserMixin):
                                default=lambda: str(uuid.uuid4()))
     roles = db.relationship('Role', secondary=role_users,
                              backref=db.backref('users', lazy='dynamic'))
-
-class Staff(db.Model, UserMixin):
-    __tablename__ = 'staff'
-    staff_id = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    mobile_no = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
-    gender = db.Column(db.String, nullable=False)
-    active = db.Column(db.Integer,nullable=False)
-    fs_uniquifier = db.Column(db.String(64), unique=True, nullable=False,
-                               default=lambda: str(uuid.uuid4()))
+    def get_id(self):
+        return f"user-{self.user_id}"
 
 class Trek(db.Model):
     __tablename__ = 'trek'
@@ -63,7 +93,8 @@ class Book(db.Model):
 
 class Assignment(db.Model):
     __tablename__ = 'assigned'
-    assig_id = db.Column(db.String, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    assig_id = db.Column(db.String,nullable=False)
     book_id = db.Column(db.String, db.ForeignKey('booking.book_id'), nullable=False)
     user_id = db.Column(db.String, db.ForeignKey('user.user_id'), nullable=False)
     staff_id = db.Column(db.String, db.ForeignKey('staff.staff_id'), nullable=False)

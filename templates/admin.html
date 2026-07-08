@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>User Details</title>
+</head>
+<body>
+    <div class="main-container2">
+        {% if 'user' in parameter %}
+            <h1>Users Information</h1><br>
+            <table class="table table-info">
+                <thead>
+                    <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Active_Status</th>
+                    <th scope="col">Blacklist</th>
+                    <th scope="col">Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in user %}
+                    <tr>
+                    <td scope="row">{{loop.index}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.active}}</td>
+                    <td><a href="/delete/{{i.user_id}}/{{i.name}}" class="btn btn-danger">To Blacklist Account</a></td>
+                    <td><a href="/profile/user/{{i.user_id}}/{{i.name}}/{{id}}" class="btn btn-info">Profile</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1>Staff Information</h1><br>
+            <table class="table table-info">
+                <thead>
+                    <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Active_Status</th>
+                    <th scope="col">Blacklist</th>
+                    <th scope="col">Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in user %}
+                    <tr>
+                    <td scope="row">{{loop.index}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.active}}</td>
+                    <td><a href="/delete/{{i.staff_id}}/{{i.name}}" class="btn btn-danger">To Blacklist Account</a></td>
+                    <td><a href="/profile/staff/{{i.staff_id}}/{{i.name}}/{{id}}" class="btn btn-info">Profile</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <br><a href="/dashboard/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -38,7 +38,7 @@ def create_app():
     with app.app_context():
         db.create_all()
         from application import controllers
-    return 
+    return app
 
 app = create_app()
 if __name__ == '__main__':

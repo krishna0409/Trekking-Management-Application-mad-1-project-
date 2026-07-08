@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
     <title>Booking Details</title>
 </head>
 <body>
     <div class="main-container">
-        <label id="extra"><h1>Welcome {{ user }}</h1></label>
-        <h4 style="margin-top: 20px;"> Your registered trek is {{trek}}</h4>
+        <label id="extra"><h1>Welcome {{ name }}</h1></label>
+        <h4 style="margin-top: 20px;"> Your registered trek is {{t_name}}</h4>
         <div class="card" style="width: 18rem;">
             <img src="{{img}}" class="img-thumbnail" alt="...">
             <div class="card-body">
@@ -20,11 +21,16 @@
                 <p class="card-text">Date for trekking : {{b.booked_date}}</p>
             </div>
         </div>
-        {% if i.current_status==1 and b.status==0 %}
+        {% if i.current_status==1 and (b.status==0 or b.status==-1)  %}
             <hr><a href="/trek/register/{{user}}/{{trek}}" class="btn btn-info">Booking Again</a><hr>
         {% elif i.current_status==1 and b.status==1 %}
-            <hr><a href="/trek/register/{{user}}/{{trek}}" class="btn btn-info">Booking Again</a>
-            <a href="/trek/register/{{user}}/{{trek}}" class="btn btn-danger">To cancel</a><hr>
+            {% if st==1 %}
+                <br><a href="/booking/assignment/{{user}}/{{name}}/{{book}}" class="btn btn-info">Guide Details</a><hr>
+            {% else %}
+                <hr>
+            {%endif%}
+            <a href="/trek/register/{{user}}/{{name}}/{{trek}}" class="btn btn-info">Booking Again</a>
+            <a href="/trek/cancel/{{user}}/{{trek}}/{{book}}" class="btn btn-danger">To cancel</a><hr>
         {% else %}
             <p>This Trek Is Closed For Some Time </p>
         {% endif %}

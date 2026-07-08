@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>Booking/Assignment</title>
+</head>
+<body>
+    <div class="main-container2">
+        {% if 'booking' in info %}
+            <h1>Booking Information</h1><br>
+            <h4>You are getting information for {{dt}}</h4>
+            <form action='/booking/{{id}}/{{dt}}' method="POST">
+                 <div class="input-group">
+                    <label><h5>Choose Date to get Data</h5></label>
+                    <input type="date" name="date" required placeholder="Please Select Date" min={{minn}} max={{maxx}}><br>
+                    <button type="submit" class="Submit-btn">Submit Date</button>
+                </div>
+            </form>
+            {% if  list_used|length == 0 %}
+                <h5 style="background-color: crimson;text-align: center;">No booking for {{dt}} till now !! </h5>
+            {% else %}
+                <table class="table table-info">
+                    <thead>
+                        <tr>
+                        <th scope="col">Booking ID</th>
+                        <th scope="col">Trek ID</th>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Booked Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Slots</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in list_used %}
+                        <tr>
+                        <td scope="row">{{i.book_id}}</td>
+                        <td>{{i.trek_id}}</td>
+                        <td>{{i.user_id}}</td>
+                        <td>{{i.booked_date}}</td>
+                        <td>{{i.status}}</td>
+                        <td>{{i.no}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {%  endif %}
+        {% else %}
+            {% if 'AD' in id %}
+                <h1>Assignment Information</h1><br>
+                <h4>You are getting information for {{dt}}</h4>
+                <form action='/booking/assignment/{{id}}/{{dt}}' method="POST">
+                    <div class="input-group">
+                        <label><h5>Choose Date to get Data</h5></label>
+                        <input type="date" name="date" required placeholder="Please Select Date" min={{minn}} max={{maxx}}><br>
+                        <button type="submit" class="Submit-btn">Submit Date</button>
+                    </div>
+                </form>
+                {% if  list_used|length == 0 %}
+                    <h5 style="background-color: crimson;text-align: center;">No booking for {{dt}} till now !! </h5>
+                {% else %}
+                    <table class="table table-info">
+                        <thead>
+                            <tr>
+                            <th scope="col">Assignment ID</th>
+                            <th scope="col">Book ID</th>
+                            <th scope="col">User ID</th>
+                            <th scope="col">Staff ID</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in list_used %}
+                            <tr>
+                            <td scope="row">{{i.assig_id}}</td>
+                            <td>{{i.book_id}}</td>
+                            <td>{{i.user_id}}</td>
+                            <td>{{i.staff_id}}</td>
+                            <td>{{i.status}}</td>
+                            <td>{{i.assigned_date}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            {% else %}
+                <h1>Welcome {{name}}</h1><br>
+                <h4 style="background-color: beige;">Assignment Information</h4><br>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-9" style="background-color: aqua;"><h5>Name : {{name}}</h5></div><br><br>
+                        <div class="col-9" style="background-color: aqua;"><h5>Name of Trek: {{t.name}}</h5></div><br><br>
+                        <div class="col-9" style="background-color: aqua;"><h5>Date of Trek : {{b.booked_date}}</h5></div><br><br>
+                        <div class="col-9" style="background-color: aqua;"><h5>No. of Slots Booked : {{b.no}}</h5></div><br><br>
+                        <div class="col-9" style="background-color: aqua;"><h5>Name of Guide : {{s.name}}</h5></div><br><br>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        <br><a href="/dashboard/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -88,6 +88,7 @@ class Book(db.Model):
     booked_date = db.Column(db.Date, nullable=False)
     status = db.Column(db.Integer,nullable=False)
     no = db.Column(db.Integer,nullable=False)
+    assigned_yet = db.Column(db.Integer,nullable=False)
     trek = db.relationship('Trek', backref='bookings')
     user = db.relationship('User', backref='bookings')
 

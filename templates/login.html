@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>Login In</title>
+</head>
+<body>
+    <div class="main-container2">
+        <h1>Welcome Back !! </h1>
+        <h4>Log In and Restart the Journey </h4>
+        <form action="{{act}}" method="POST">
+            <div class="input-group">
+                <label for="username"><h5>User_ID or Email</h5></label>
+                <input type="text" id="username" name="user_id" placeholder="Enter your User_ID or Email" required>
+            </div>
+            <div class="input-group">
+                <label for="password"><h5>Password</h5></label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="Submit-btn">Log In</button>
+        </form>
+        <div class="form-footer">
+            <p><a href="{{forg}}">Forgot Password?</a></p>
+            <p>Don't have an account? <a href="{{sign}}">Register here</a></p>
+        </div>
+    </div>
+</body>

@@ -6,13 +6,46 @@
     <title>Dashboard</title>
 </head>
 <body>
-    {% if 'AD' in id %}
-        <div class="main-container2">
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/profile/{{type}}/{{id}}/{{name}}">
+                <img src="{{u_img}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> {{name}}
+                </a>
+                <ul class="nav justify-content-end">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/{{type}}/{{id}}">Dashboard</a>
+                </li>
+                {% if 'user' in type %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/register/{{type}}/{{id}}/{{name}}">Treks</a>
+                    </li>
+                {% elif 'staff' in type %}
+                    <li class="nav-item">
+                        <a href="/trek/details/{{type}}/{{id}}/{{name}}" class="nav-link active" aria-current="page">Opened Treks</a>
+                    </li>
+                {%else%}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/add/{{id}}/{{name}}">Add Trek</a>
+                    </li>
+                {%endif%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/update/{{type}}/{{id}}/{{name}}">Update Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/{{type}}/{{id}}/{{name}}">Delete Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </div> 
+    <div class="main-container2">
+        {% if 'AD' in id %}
             <h1>Welcome {{name}}</h1><br>
             <h4>All operations on User/Trek/Staff defined below</h4><hr>
-             <a href="/logout" class="btn btn-warning">Click to logout</a>
-            <a href="/delete/{{ id }}/{{name}}" class="btn btn-danger">Click to Delete Account</a>
-            <a href="/update/{{ id }}/{{name}}" class="btn btn-secondary">Click to Update Account</a><br><hr>
             <h5 style="text-align: center;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;background-color:aqua ;">Users Active/Delete Graph</h5>
             <img src="{{ url_for('static', filename='users.png') }}" class="rounded mx-auto d-block" alt="user_data"><hr><br>
             <h5 style="text-align: center;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;background-color:aqua ;">Staff Active/Delete Graph</h5>
@@ -20,67 +53,88 @@
             <h5 style="text-align: center;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;background-color:aqua ;">Trek Active/Inactive/Delete Graph</h5>
             <img src="{{ url_for('static', filename='trek.png') }}" class="rounded mx-auto d-block" alt="trek_data"><hr>
             <h5 style="text-align: center;background-color: aqua;">Operations on Trek</h5><br>
-            <a href="/trek/add/{{id}}" class="btn btn-primary">Add new Trek</a>
-            <a href='/trek/register/{{id}}/{{name}}' class="btn btn-secondary">Information about Treks</a><hr>
+            <a href="/trek/add/{{id}}/{{name}}" class="btn btn-primary">Add new Trek</a>
+            <a href='/trek/details/{{type}}/{{id}}/{{name}}' class="btn btn-secondary">Information about Treks</a><hr>
             <h5 style="text-align: center;background-color: aqua;">Operations on Staff</h5><br>
-            <a href="/staff/signin" class="btn btn-primary">Register a new staff</a>
-            <a href="/admin/details/staff/{{id}}" class="btn btn-secondary">Staff Information</a><hr>
+            <a href="/signin/staff" class="btn btn-primary">Register a new staff</a>
+            <a href="/details/staff/{{type}}/{{id}}/{{name}}" class="btn btn-secondary">Staff Information</a>
+            <a href="/staff/verify/{{type}}/{{id}}/{{name}}" class="btn btn-warning">Staff Verification</a><hr>
             <h5 style="text-align: center;background-color: aqua;">Operations on User</h5><br>
             <a href="/signin" class="btn btn-primary">Register a new user</a>
-            <a href="/admin/details/user/{{id}}" class="btn btn-secondary">Users Information</a><hr>
+            <a href="/details/user/{{type}}/{{id}}/{{name}}" class="btn btn-secondary">Users Information</a><hr>
             <h5 style="text-align: center;background-color: aqua;">Operations on Bookings</h5><br>
-            <a href="" class="btn btn-primary">Assignment of Task</a>
-            <a href='/booking/{{id}}/{{dt}}' class="btn btn-secondary">Booking Information</a>
-            <a href='/booking/assignment/{{id}}/{{dt}}' class="btn btn-warning">Assignment Information</a>
-            
-        </div>
-    {% elif 'U' in id %}
-        <div class="main-container1">
-            <h1>Welcome {{name}}</h1>
+            <a href="/booking/assignment/task/{{type}}/{{id}}/{{name}}/{{dt}}" class="btn btn-primary">Assignment of Task</a>
+            <a href='/booking/details/{{type}}/{{id}}/{{name}}/{{dt}}' class="btn btn-secondary">Booking Information</a>
+            <a href='/assignment/details/{{type}}/{{id}}/{{name}}/{{dt}}' class="btn btn-warning">Assignment Information</a>
+        {% elif 'U' in id %}
+            <h1>Welcome {{name}}</h1><br>
             <h4 style="margin-bottom: 30px;">What's in your mind Today !!</h4>
-            <a href="/logout" class="btn btn-warning">Click to logout</a>
-            <a href="/delete/{{ id }}/{{name}}" class="btn btn-danger">Click to Delete Account</a>
-            <a href="/update/{{ id }}/{{name}}" class="btn btn-secondary">Click to Update Account</a>
-            <br><br>
-            <div class="main-container">
+            <div class="main-container1">
                 <h4>Your Registered Treks</h4>
                 {% if list_used|length == 0 %}
                     <p style="text-align: center;">No Trek Registered Yet </p>
                 {% else %}
                     {% for i in list_used %}
-                        <div class="card" style="width: 18rem;">
-                            <img src="{{img}}" class="img-thumbnail" alt="...">
-                                <div class="card-body">
-                                    <h4>{{i.name}}</h4><hr>
-                                    <p class="card-text">{{i.description}}</p><hr>
-                                    <a href="/trek/details/{{id}}/{{i.trek_id}}/{{book[loop.index-1][0]}}" class="btn btn-info">Booking Details</a><hr>
-                                    {% if  book[loop.index-1][3] == 1 %}
-                                        <a href="/trek/cancel/{{id}}/{{i.trek_id}}/{{book[loop.index-1][0]}}" class="btn btn-danger">To Cancel Booking</a>
-                                    {% elif  book[loop.index-1][3] == -1 %}
-                                        <h4 style="background-color: rgb(228, 99, 99);">Booking Cancelled</h4>
-                                    {% else %}
-                                        <label><h5>Status : Trek Completed</h5></label>
-                                    {% endif %}
-                                </div>
+                    <div class="card" style="width: 600px;">
+                        <img src="{{timg}}" class="card-img-top" alt="{{i.name}}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{i.name}}</h5>
+                            <h6 class="card-text">{{i.description}}</h6><hr>
+                            <a href="/trek/book/details/{{type}}/{{id}}/{{name}}/{{book[loop.index-1][0]}}" class="card-link btn btn-info">Booking Details</a>
+                            <a href="/trek/register/{{type}}/{{id}}/{{name}}/{{i.trek_id}}/{{i.name}}" class="btn btn-success">Book Again</a><hr>
+                            {% if book[loop.index-1][5] == 1 %}
+                                <a href="/booking/assignment/details/{{type}}/{{id}}/{{name}}/{{i.trek_id}}/{{i.name}}/{{book[loop.index-1][0]}}" class="btn btn-warning">Guide details</a>
+                            {% elif book[loop.index-1][5] == -1 %}
+                                <br>
+                            {% else %}
+                                <h4 style="background-color: rgb(201, 227, 139);">Guide Details Updated Shortly</h4>
+                            {% endif %}
+                            {% if  book[loop.index-1][3] == 1 %}
+                                <hr><a href="/trek/cancel/{{type}}/{{id}}/{{name}}/{{i.trek_id}}/{{i.name}}/{{book[loop.index-1][0]}}" class="btn btn-danger">To Cancel Booking</a>
+                            {% elif  book[loop.index-1][3] == -1 %}
+                                <hr><h4 style="background-color: rgb(228, 99, 99);">Booking Cancelled</h4>
+                            {% else %}
+                                <hr><h5>Status : Trek Completed</h5>
+                            {% endif %}
                         </div>
-                        <br>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="form-footer">
-                    <button class="btn btn-primary" onclick="window.location.href='/trek/register/{{id}}/{{name}}'">Register For New Trek</button>
-                </div>
-             </div>
-    {% else %}
-        <div class="main-container1">
+                    </div><br><br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-footer">
+                    <a class="btn btn-info" aria-current="page" href="/trek/register/{{type}}/{{id}}/{{name}}">Register for Treks</a>
+            </div>
+        {% else %}
             <h1>Welcome {{name}}</h1>
-            <h4 style="margin-bottom: 30px;">Your Assigned Works !!</h4>
-            <a href="/logout" class="btn btn-warning">Click to logout</a>
-            <a href="/delete/{{ id }}/{{name}}" class="btn btn-danger">Click to Delete Account</a>
-            <a href="/update/{{ id }}/{{name}}" class="btn btn-secondary">Click to Update Account</a>
-            <a href="/trek/register/{{ id }}/{{name}}" class="btn btn-secondary">Opened Trek Information</a>
+            <h4 style="margin-bottom: 30px;">Your Assigned Works for {{dt}}</h4>
+            <div class="main-container1">
+            {% if l|length == 0 %}
+                <h4>Currently no task Assigned !!</h4>
+            {% else %}
+                <table class="table table-light table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Trek Name</th>
+                        <th scope="col">Slots Booked</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in l %}
+                        <tr>
+                        <td scope="row">{{loop.index}}</td>
+                        <td>{{i[0]}}</td>
+                        <td>{{i[1]}}</td>
+                        <td>{{i[2]}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="/dashboard/{{type}}/{{id}}" class="btn btn-warning">Click To Finish Day</a>
+            {% endif %}
+            </div>
             <br><br>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 </body>
-</html>

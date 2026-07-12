@@ -1,9 +1,11 @@
 import os
 from flask import Flask
 from application.config import LocalDevelopmentConfig
-from application.models import db, User, Role,Staff,Admin
+from application.models import db, User, Role,Staff,Admin,Staff_Det
 from flask_security import Security, SQLAlchemyUserDatastore, hash_password
 from flask import render_template
+import logging
+logging.basicConfig(filename="debug.log",level=logging.DEBUG,format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 def create_app():
     app = Flask(__name__, template_folder="templates")
@@ -24,11 +26,11 @@ def create_app():
     def load_user(compound_id):
         kind, _, real_id = compound_id.partition('-')
         if kind == 'user':
-            return User.query.get(real_id)
+            return db.session.get(User,real_id)
         if kind == 'staff':
-            return Staff.query.get(real_id)
+            return db.session.get(Staff,real_id)
         if kind == 'admin':
-            return Admin.query.get(real_id)
+            return db.session.get(Admin,real_id)
         return None
     
     @login_manager.unauthorized_handler

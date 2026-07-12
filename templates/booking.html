@@ -2,16 +2,52 @@
 <html lang="en">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
-    <title>Booking/Assignment</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <title>Profile</title>
 </head>
 <body>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/profile/{{type}}/{{id}}/{{name}}">
+                <img src="{{u_img}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> {{name}}
+                </a>
+                <ul class="nav justify-content-end">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/{{type}}/{{id}}">Dashboard</a>
+                </li>
+                {% if 'user' in type %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/register/{{id}}/{{name}}">Treks</a>
+                    </li>
+                {% elif 'staff' in type %}
+                    <li class="nav-item">
+                        <a href="/trek/details/{{type}}/{{id}}/{{name}}" class="nav-link active" aria-current="page">Opened Treks</a>
+                    </li>
+                {%else%}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/add/{{id}}/{{name}}">Add Trek</a>
+                    </li>
+                {%endif%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/update/{{type}}/{{id}}/{{name}}">Update Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/{{type}}/{{id}}/{{name}}">Delete Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </div> 
     <div class="main-container2">
         {% if 'booking' in info %}
             <h1>Booking Information</h1><br>
             <h4>You are getting information for {{dt}}</h4>
-            <form action='/booking/{{id}}/{{dt}}' method="POST">
-                 <div class="input-group">
+            <form action='/booking/details/{{type}}/{{id}}/{{name}}/{{dt}}' method="POST">
+                <div class="input-group">
                     <label><h5>Choose Date to get Data</h5></label>
                     <input type="date" name="date" required placeholder="Please Select Date" min={{minn}} max={{maxx}}><br>
                     <button type="submit" class="Submit-btn">Submit Date</button>
@@ -46,59 +82,45 @@
                 </table>
             {%  endif %}
         {% else %}
-            {% if 'AD' in id %}
-                <h1>Assignment Information</h1><br>
-                <h4>You are getting information for {{dt}}</h4>
-                <form action='/booking/assignment/{{id}}/{{dt}}' method="POST">
-                    <div class="input-group">
-                        <label><h5>Choose Date to get Data</h5></label>
-                        <input type="date" name="date" required placeholder="Please Select Date" min={{minn}} max={{maxx}}><br>
-                        <button type="submit" class="Submit-btn">Submit Date</button>
-                    </div>
-                </form>
-                {% if  list_used|length == 0 %}
-                    <h5 style="background-color: crimson;text-align: center;">No booking for {{dt}} till now !! </h5>
-                {% else %}
-                    <table class="table table-info">
-                        <thead>
-                            <tr>
-                            <th scope="col">Assignment ID</th>
-                            <th scope="col">Book ID</th>
-                            <th scope="col">User ID</th>
-                            <th scope="col">Staff ID</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for i in list_used %}
-                            <tr>
-                            <td scope="row">{{i.assig_id}}</td>
-                            <td>{{i.book_id}}</td>
-                            <td>{{i.user_id}}</td>
-                            <td>{{i.staff_id}}</td>
-                            <td>{{i.status}}</td>
-                            <td>{{i.assigned_date}}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
-            {% else %}
-                <h1>Welcome {{name}}</h1><br>
-                <h4 style="background-color: beige;">Assignment Information</h4><br>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-9" style="background-color: aqua;"><h5>Name : {{name}}</h5></div><br><br>
-                        <div class="col-9" style="background-color: aqua;"><h5>Name of Trek: {{t.name}}</h5></div><br><br>
-                        <div class="col-9" style="background-color: aqua;"><h5>Date of Trek : {{b.booked_date}}</h5></div><br><br>
-                        <div class="col-9" style="background-color: aqua;"><h5>No. of Slots Booked : {{b.no}}</h5></div><br><br>
-                        <div class="col-9" style="background-color: aqua;"><h5>Name of Guide : {{s.name}}</h5></div><br><br>
-                    </div>
+            <h1>Assignment Information</h1><br>
+            <h4>You are getting information for {{dt}}</h4>
+            <form action='/assignment/details/{{type}}/{{id}}/{{name}}/{{dt}}' method="POST">
+                <div class="input-group">
+                    <label><h5>Choose Date to get Data</h5></label>
+                    <input type="date" name="date" required placeholder="Please Select Date" min={{minn}} max={{maxx}}><br>
+                    <button type="submit" class="Submit-btn">Submit Date</button>
                 </div>
+            </form>
+            {% if  list_used|length == 0 %}
+                <h5 style="background-color: crimson;text-align: center;">No booking for {{dt}} till now !! </h5>
+            {% else %}
+                <table class="table table-info">
+                    <thead>
+                        <tr>
+                        <th scope="col">Assignment ID</th>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Staff ID</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in list_used %}
+                        <tr>
+                        <td scope="row">{{i.assig_id}}</td>
+                        <td>{{i.book_id}}</td>
+                        <td>{{i.user_id}}</td>
+                        <td>{{i.staff_id}}</td>
+                        <td>{{i.status}}</td>
+                        <td>{{i.assigned_date}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             {% endif %}
         {% endif %}
-        <br><a href="/dashboard/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
+        <br><a href="/dashboard/{{type}}/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
     </div>
 </body>
 </html>

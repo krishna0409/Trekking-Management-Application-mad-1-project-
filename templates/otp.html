@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>Forgot Password</title>
+</head>
+<body>
+    <div class="main-container2">
+        <h1>Forgotten Password</h1>
+        <h4>Please enter OTP received on {{mail}}</h4>
+        <form action="{{forg}}" method="POST">
+                <div class="input-group">
+                    <label for="username"><h5>Enter OTP</h5></label>
+                    <input type="text" id="otp" name="otp" inputmode="numeric" maxlength="4" minlength="4" pattern="\d{4}" title="Please enter exactly 4 digits" placeholder="Enter your User_ID or Email" required>
+                </div>
+                <button type="submit" class="Submit-btn">Click for OTP on Email</button>
+            </form>
+    </div>
+</body>
+</html>

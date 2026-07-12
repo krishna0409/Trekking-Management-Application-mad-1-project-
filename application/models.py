@@ -26,7 +26,7 @@ class Admin(db.Model, UserMixin):
     admin_id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
     mobile_no = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(db.String, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.String, nullable=False)
     active = db.Column(db.Integer, nullable=False)
@@ -41,7 +41,7 @@ class Staff(db.Model, UserMixin):
     staff_id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
     mobile_no = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String, nullable=False, unique=True)
+    email = db.Column(db.String, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.String, nullable=False)
     active = db.Column(db.Integer,nullable=False)
@@ -52,13 +52,22 @@ class Staff(db.Model, UserMixin):
     def get_id(self):
         return f"staff-{self.staff_id}"
 
-    
+class Staff_Det(db.Model):
+    __tablename__ = 'staff_details'
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    mobile_no = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    gender = db.Column(db.String, nullable=False)
+    status=db.Column(db.Integer,nullable=False)
+
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     user_id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
     mobile_no = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String, nullable=False, unique=True)
+    email = db.Column(db.String, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.String, nullable=False)
     active = db.Column(db.Integer,nullable=False)

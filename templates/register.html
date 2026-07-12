@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>Trek Registration</title>
+</head>
+<body>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/profile/{{type}}/{{id}}/{{name}}">
+                <img src="{{u_img}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> {{name}}
+                </a>
+                <ul class="nav justify-content-end">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/{{type}}/{{id}}">Dashboard</a>
+                </li>
+                {% if 'user' in type %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/register/{{type}}/{{id}}/{{name}}">Treks</a>
+                    </li>
+                {% elif 'staff' in type %}
+                    <li class="nav-item">
+                        <a href="/trek/details/{{type}}/{{id}}/{{name}}" class="nav-link active" aria-current="page">Opened Treks</a>
+                    </li>
+                {%else%}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/add/{{id}}/{{name}}">Add Trek</a>
+                    </li>
+                {%endif%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/update/{{type}}/{{id}}/{{name}}">Update Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/{{type}}/{{id}}/{{name}}">Delete Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </div> 
+    <div class="main-container2">
+        <h1>Welcome {{name}}</h1><br>
+        <h4 style="margin-bottom: 30px;">Please Choose Trek to Register</h4>
+        <div class="main-container1">
+            {% if list_used|length == 0 %}
+                    <p style="text-align: center;">No Trek Registered Yet </p>
+            {% else %}
+                {% for i in list_used %}
+                    <div class="card" style="width: 600px;">
+                    <img src="{{timg}}" class="card-img-top" alt="{{i.name}}">
+                    <div class="card-body">
+                        <h4 class="card-title">{{i.name}}</h4>
+                        <p class="card-text">Location : {{i.location}}</p>
+                        <p class="card-text">Difficulty : {{i.difficulty}}</p>
+                        <p class="card-text">Duration : {{i.duration}}</p>
+                        <p class="card-text">Total Slots : {{i.slots}}</p>
+                        <h6 class="card-text">Description : {{i.description}}</h6><hr>
+                        <a href="/trek/register/{{type}}/{{id}}/{{name}}/{{i.trek_id}}/{{i.name}}" class="card-link btn btn-info">Book Trek</a>
+                    </div>
+                    </div><br><br>
+                    {% endfor %}
+                {% endif %}
+        </div>
+    </div>
+</body>
+</html>

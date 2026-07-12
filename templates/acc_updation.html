@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>Account Updation</title>
+</head>
+<body>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/profile/{{type}}/{{id}}/{{name}}">
+                <img src="{{u_img}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> {{name}}
+                </a>
+                <ul class="nav justify-content-end">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/{{type}}/{{id}}">Dashboard</a>
+                </li>
+                {% if 'user' in type %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/register/{{type}}/{{id}}/{{name}}">Treks</a>
+                    </li>
+                {% elif 'staff' in type %}
+                    <li class="nav-item">
+                        <a href="/trek/details/{{type}}/{{id}}/{{name}}" class="nav-link active" aria-current="page">Opened Treks</a>
+                    </li>
+                {%else%}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/add/{{id}}/{{name}}">Add Trek</a>
+                    </li>
+                {%endif%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/update/{{type}}/{{id}}/{{name}}">Update Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/{{type}}/{{id}}/{{name}}">Delete Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </div> 
+    <div class="main-container2">
+        <h1>Welcome {{name}}</h1>
+        <h4>Please Edit your Information !!</h4>
+        <form action="/update/{{type}}/{{id}}/{{name}}" method="POST">
+            <div class="input-group">
+                <label><h5>Name</h5></label>
+                <input type="text" name="name" required placeholder="Enter your Name">
+            </div>
+            <div class="input-group">
+                <label><h5>Mobile no.</h5></label>
+                <input type="tel" name="mob" required placeholder="Enter your Mobile no.">
+            </div>
+            <div>
+                <label id="extra"><h5>Gender</h5></label>
+                <input type="radio" name="choice" value="M" required>
+                <label>Male</label>
+                <input type="radio" name="choice" value="F" required>
+                <label>Female</label>
+                <input type="radio" name="choice" value="O" required>
+                <label>Others</label>
+            </div>
+            <br>
+            <button type="submit" class="Submit-btn">Update</button>
+        </form>
+    </div>
+</body>

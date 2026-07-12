@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/profile/{{type}}/{{id}}/{{name}}">
+                <img src="{{u_img}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> {{name}}
+                </a>
+                <ul class="nav justify-content-end">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/{{type}}/{{id}}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/trek/add/{{id}}/{{name}}">Add Trek</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/update/{{type}}/{{id}}/{{name}}">Update Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/{{type}}/{{id}}/{{name}}">Delete Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </div> 
+    <div class="main-container2">
+        <h1>Staff Information to be Verified</h1><br>
+            <table class="table table-light table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mobile_no</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Approve</th>
+                    <th scope="col">DisApprove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in l %}
+                    <tr>
+                    <td scope="row">{{loop.index}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.mobile_no}}</td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.gender}}</td>
+                    <td><form action="/staff/verify/{{type}}/{{id}}/{{name}}" method="POST">
+                        <button type="submit" name="approve" value="{{i.email}}" class="btn btn-success">Approve</button></td>
+                    <td><button type="submit" name="disapprove" value="{{i.email}}" class="btn btn-warning">Disapprove</button></td></form>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        <br><a href="/dashboard/{{type}}/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
+    </div>
+</body>
+</html>

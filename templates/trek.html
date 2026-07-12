@@ -2,125 +2,41 @@
 <html lang="en">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <link rel="stylesheet" href="/static/style.css">
     <title>{{title}}</title>
 </head>
 <body>
-    <div class="main-container">
-        {% if 'Trek' in title %}
-            {% if 'U' in id or 'S' in id %}
-                <h1>Welcome {{name}}</h1>
-                <h4>Please Choose Trek</h4>
-                <div class="main-container2">
-                    {% for i in list_used %}
-                        <div class="card" style="width: 18rem;">
-                            <img src="{{img}}" class="img-thumbnail" alt="{{i.name}} image">
-                            <div class="card-body">
-                                <h4>{{i.name}}</h4><hr>
-                                <p class="card-text">Location : {{i.location}}</p><hr>
-                                <p class="card-text">Description : {{i.description}}</p><hr>
-                                <p class="card-text">Difficulty : {{i.difficulty}}</p><hr>
-                                <p class="card-text">Duration : {{i.duration}}</p><hr>
-                                {% if 'U' in id %}
-                                    <a href="/trek/register/{{id}}/{{name}}/{{i.trek_id}}" class="btn btn-info">Register</a>
-                                {% else %}
-                                    <p class="card-text">Slots : {{i.slots}}</p><hr>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <br><a href="/dashboard/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
-                </div>
-            {% else %}
-                <h1>Welcome {{name}}</h1>
-                <h4>Trek Details are below</h4>
-                <div class="main-container2">
-                    {% for i in list_used %}
-                        <div class="card" style="width: 18rem;">
-                            <img src="{{img}}" class="img-thumbnail" alt="{{i.name}} image">
-                            <div class="card-body">
-                                <h4>{{i.name}}</h4><hr>
-                                <p class="card-text">Location : {{i.location}}</p><hr>
-                                <p class="card-text">Description : {{i.description}}</p><hr>
-                                <p class="card-text">Difficulty : {{i.difficulty}}</p><hr>
-                                <p class="card-text">Duration : {{i.duration}}</p><hr>
-                                <p class="card-text">Current Status : {{i.current_status}}</p><hr>
-                                <a href="/trek/update/{{id}}/{{i.trek_id}}/{{i.name}}" class="btn btn-info">To Update</a>
-                                {% if i.current_status==1 or i.current_status== 0 %}
-                                    <a href="/trek/delete/{{id}}/{{i.trek_id}}/{{i.name}}" class="btn btn-danger">To Delete</a>
-                                {% else %}
-                                    <br><br><h4 style="background-color: rgb(237, 109, 135);">Deleted Trek</h4>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <br><a href="/dashboard/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
-                </div>
-            {% endif %}
-        {% elif 'Confirmation' in title %}
-            <label id="extra"><h1>Are u Confirm to Register for this Trek</h1></label>
-            <h5 style="margin-top: 20px;">Please Read Below Given Information About Trek</h5>
-            <div class="main-container2">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{img}}" class="img-thumbnail" alt="{{i.name}} image">
-                    <div class="card-body">
-                        <h4>{{i.name}}</h4><hr>
-                        <p class="card-text">{{i.description}}</p><hr>
-                         <p class="card-text">Location : {{i.location}}</p><hr>
-                        <p class="card-text">Difficulty : {{i.difficulty}}</p><hr>
-                        <p class="card-text">Duration : {{i.duration}}</p><hr>
-                    </div>
-                </div>
-                <br>
-                <form action="{{act}}{{id}}/{{name}}/{{id2}}" method="POST">
-                    <div class="input-group">
-                        <label><h5>Booking Date</h5></label>
-                        <input type="date" name="date" required placeholder="Please Select Trekking Date" min={{tomm}} max={{maxx}}>
-                    </div>
-                    <div class="input-group">
-                        <label><h5>No. of slots to be booked:</h5></label>
-                        <input type="number" name="slots" required placeholder="Please Enter no. of slots">
-                    </div>
-                    <button type="submit" class="Submit-btn">Confirm to Register</button>
-                </form>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/profile/{{type}}/{{id}}/{{name}}">
+                <img src="{{u_img}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> {{name}}
+                </a>
+                <ul class="nav justify-content-end">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/{{type}}/{{id}}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/trek/add/{{id}}/{{name}}">Add Treks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/update/{{type}}/{{id}}/{{name}}">Update Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/{{type}}/{{id}}/{{name}}">Delete Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                </ul>
             </div>
-        {% elif 'Updation' in title %}
-            <h1>Update Trek Information</h1>
-            <h4> {{name}}</h4>
-            <br>
-            <form action="/trek/update/{{admin}}/{{id}}/{{name}}" method="POST" id="add-trek">
-                <br>
-                <div>
-                    <label>Trek Description: </label>
-                    <input type="text" name="desc" value="{{ list_used.description }}" />
-                </div>
-                <br>
-                <div>
-                    <label>Difficulty : </label>
-                    <input type="text" name="diff" value="{{ list_used.difficulty }}" />
-                </div>
-                <br>
-                <div>
-                    <label>Duration :</label>
-                    <input type="text" name="dur" value="{{ list_used.duration}}" />
-                </div>
-                <br>
-                <div>
-                    <label>Status :</label>
-                    <input type="text" name="status" value="{{ list_used.current_status}}"/>
-                </div>
-                <br>
-                <div>
-                    <label>Slots:</label>
-                    <input type="number" name="slots" value="{{ list_used.slots}}"/>
-                </div>
-                <br>
-                <button type="submit" class="Submit-btn">Update Trek</button>
-            </form>
-        {% elif 'Add' in title %}
+        </nav>
+    </div> 
+    <div class="main-container2">
+        {% if 'Add' in title %}
             <h1>New Trek to Add</h1>
             <br>
-            <form action="/trek/add/{{admin}}" method="POST" id="add-trek">
+            <form action="/trek/add/{{id}}/{{name}}" method="POST" id="add-trek">
                 <br>
                 <div>
                     <label>Trek Name:</label>
@@ -159,26 +75,74 @@
                 <br>
                 <button type="submit" class="Submit-btn">Add new Trek</button>
             </form>
-        {% else %}
-            <label id="extra"><h1>Are u Confirm to Cancel this Trek</h1></label>
-            <div class="main-container">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{img}}" class="img-thumbnail" alt="{{i.name}} image">
-                    <div class="card-body">
-                        <h4>{{i.name}}</h4>
-                        <p class="card-text">{{i.description}}</p>
-                        <p class="card-text">Difficulty : {{i.difficulty}}</p>
-                        <p class="card-text">Duration : {{i.duration}}</p>
-                        <p class="card-text">Booked Date : {{book_dt}}</p>
-                        <p class="card-text">Booked Slots : {{slots}}</p>
-                    </div>
+        {% elif 'Updation' in title %}
+            <h1>Update Trek Information</h1>
+            <h4> {{name}}</h4>
+            <br>
+            <form action="/trek/update/{{id}}/{{name}}/{{trek}}" method="POST" id="add-trek">
+                <br>
+                <div>
+                    <label>Trek Description: </label>
+                    <input type="text" name="desc" value="{{ list_used.description }}" />
                 </div>
                 <br>
-                <form action="{{url}}{{id1}}/{{id2}}/{{id3}}" method="POST">
-                    <button type="submit" class="Submit-btn">Confirm to Cancel</button>
-                </form>
-            </div>
+                <div>
+                    <label>Difficulty : </label>
+                    <input type="text" name="diff" value="{{ list_used.difficulty }}" />
+                </div>
+                <br>
+                <div>
+                    <label>Duration :</label>
+                    <input type="text" name="dur" value="{{ list_used.duration}}" />
+                </div>
+                <br>
+                <div>
+                    <label>Status :</label>
+                    <input type="text" name="status" value="{{ list_used.current_status}}"/>
+                </div>
+                <br>
+                <div>
+                    <label>Slots:</label>
+                    <input type="number" name="slots" value="{{ list_used.slots}}"/>
+                </div>
+                <br>
+                <button type="submit" class="Submit-btn">Update Trek</button>
+            </form>
+        {% elif 'Deletion' in title %}
+            <label id="extra"><h4>Did u want to delete this Trek Permanently : {{tname}}</h4></label>
+            <form action="trek/delete/{{id}}/{{name}}/{{trek}}/{{tname}}" method="POST">
+                <button type="submit" class="Submit-btn">Delete Trek Permanently</button>
+            </form>
+            <br><a href="/dashboard/{{type}}/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
+        {%else%}
+            <h1>Treks Information</h1><br>
+            <table class="table table-light table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Active_Status</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in table_used %}
+                    <tr>
+                    <td scope="row">{{loop.index}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.location}}</td>
+                    <td>{{i.current_status}}</td>
+                    <td><a href="/trek/update/{{id}}/{{name}}/{{i.trek_id}}" class="btn btn-warning">To Update Trek</a></td>
+                    <td><a href="/trek/delete/{{id}}/{{name}}/{{i.trek_id}}/{{i.name}}" class="btn btn-danger">To Delete Trek</a></td>
+                    <td><a href="/trek/details/{{type}}/{{id}}/{{name}}/{{i.trek_id}}/{{i.name}}" class="btn btn-info">Details</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br><a href="/dashboard/{{type}}/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
         {% endif %}
     </div>
 </body>
-</html>

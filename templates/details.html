@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>User Details</title>
+</head>
+<body>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/profile/{{type}}/{{id}}/{{name}}">
+                <img src="{{u_img}}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top"> {{name}}
+                </a>
+                <ul class="nav justify-content-end">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard/{{type}}/{{id}}">Dashboard</a>
+                </li>
+                {% if 'user' in type %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/register/{{id}}/{{name}}">Treks</a>
+                    </li>
+                {% elif 'staff' in type %}
+                    <li class="nav-item">
+                       <a href="/trek/details/{{type}}/{{id}}/{{name}}" class="nav-link active" aria-current="page">Opened Treks</a>
+                    </li>
+                {%else%}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/trek/add/{{id}}/{{name}}">Add Trek</a>
+                    </li>
+                {%endif%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/update/{{type}}/{{id}}/{{name}}">Update Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/delete/{{type}}/{{id}}/{{name}}">Delete Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </div> 
+    <div class="main-container2">
+        {% if 'user' in parameter %}
+            <h1>Users Information</h1><br>
+            <table class="table table-light table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Active_Status</th>
+                    <th scope="col">Blacklist</th>
+                    <th scope="col">Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in user %}
+                    <tr>
+                    <td scope="row">{{loop.index}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.active}}</td>
+                    <td><a href="/delete/user/{{i.user_id}}/{{i.name}}" class="btn btn-danger">To Blacklist Account</a></td>
+                    <td><a href="/profile/admin/{{i.user_id}}/{{i.name}}" class="btn btn-info">Profile</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1>Staff Information</h1><br>
+            <table class="table table-info">
+                <thead>
+                    <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Active_Status</th>
+                    <th scope="col">Blacklist</th>
+                    <th scope="col">Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in user %}
+                    <tr>
+                    <td scope="row">{{loop.index}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.active}}</td>
+                    <td><a href="/delete/staff/{{i.staff_id}}/{{i.name}}" class="btn btn-danger">To Blacklist Account</a></td>
+                    <td><a href="/profile/admin/{{i.staff_id}}/{{i.name}}" class="btn btn-info">Profile</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <br><a href="/dashboard/{{type}}/{{id}}" class="btn btn-secondary">Click To Go Back to Dashboard</a>
+    </div>
+</body>
+</html>

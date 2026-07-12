@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' )}}">
+    <title>{{title}}</title>
+</head>
+<body>
+    <div class="main-container2">
+        {% if 'Success' in title %}
+            <h1>Congratulations {{name}}</h1>
+            <h4>Your new Password is {{passw}}</h4>
+            <div class="form-footer">
+                <p>Already have an Account? <a href="{{log}}">Log in</a></p>
+            </div>
+        {%else%}
+            <h1>You have entered Wrong OTP</h1>
+            <h4>Please Retry</h4>
+            <div class="form-footer">
+                <p>Forget Password<a href="/forget/{{type}}"> Forgot password</a></p>
+            </div>
+        {%endif%}
+    </div>
+</body>
+</html>

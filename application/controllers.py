@@ -540,7 +540,8 @@ def page_not_found(e):
 
 @app.route("/")
 def index():
-    return redirect(url_for('login'))
+    trek=Trek.query.filter_by(current_status=1).all()
+    return render_template('main.html',u_img=u_img,timg=timg,list_used=trek)
 
 @app.route("/forget/<type>", methods=["GET", "POST"])
 def forget(type):
@@ -598,4 +599,20 @@ def forget1(type,mail):
                 return render_template('wrong.html',title='Success',log='/login/admin',passw=passw,name=s.name)
         else:
             return render_template('wrong.html',title='Wrong OTP',type=type)
+    return render_template("error.html"), 404
+
+@app.route('/booking/assignment/complete/<type>/<id>/<name>/<dt>',methods=["GET","POST"])
+@login_required
+def comp(type,id,name,dt):
+    if request.method=="GET":
+        return render_template('confirm.html',type=type,id=id,name=name,dt=dt)
+    elif request.method=="POST":
+        assign=Assignment.query.filter_by(staff_id=id,assigned_date=dt).all()
+        for i in assign:
+            book=Book.query.filter_by(book_id=i.book_id).first()
+            book.current_status=0
+            i.status=0
+            db.session.commit()
+            db.session.flus()
+        return redirect(url_for('dashboard',type=type,id=id))
     return render_template("error.html"), 404
